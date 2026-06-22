@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scrappy — AI Pantry Companion</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <nav>
+      <div class="logo">🥕 Scrappy</div>
+      <a href="#demo" class="nav-btn">Try Demo</a>
+    </nav>
+    <section class="hero-grid">
+      <div>
+        <p class="eyebrow">AI-powered food waste helper</p>
+        <h1>Turn “nothing to eat” into dinner.</h1>
+        <p class="hero-text">Scrappy looks at what you already have, prioritizes ingredients close to expiry, and suggests easy recipes before food becomes waste.</p>
+        <div class="hero-actions">
+          <a class="primary" href="#demo">Open Prototype</a>
+          <a class="secondary" href="#faq">See how it helps</a>
+        </div>
+      </div>
+      <div class="phone-card">
+        <div class="phone-top"></div>
+        <h3>Tonight’s rescue meal ✨</h3>
+        <p>Use your spinach, tomatoes, and rice before they expire.</p>
+        <div class="meal-card">
+          <span>🍅</span>
+          <div><strong>Tomato Spinach Rice Bowl</strong><br><small>18 mins • Beginner • Saves 3 items</small></div>
+        </div>
+        <button onclick="scrollToDemo()">Generate more ideas</button>
+      </div>
+    </section>
+  </header>
+
+  <main>
+    <section class="problem">
+      <h2>The problem Scrappy solves</h2>
+      <div class="cards">
+        <article><span>🧊</span><h3>Forgotten food</h3><p>Ingredients hide in the fridge until they expire.</p></article>
+        <article><span>🤔</span><h3>Decision stress</h3><p>You know what you have, but not what to cook with it.</p></article>
+        <article><span>💸</span><h3>Wasted money</h3><p>Throwing away food means throwing away groceries you paid for.</p></article>
+      </div>
+    </section>
+
+    <section id="demo" class="app-shell">
+      <aside class="sidebar">
+        <h2>🥕 Scrappy</h2>
+        <button class="active" data-screen="dashboard">Dashboard</button>
+        <button data-screen="pantry">My Kitchen</button>
+        <button data-screen="recipes">Recipes</button>
+        <button data-screen="scan">Add Items</button>
+        <button data-screen="faq">Questions</button>
+      </aside>
+
+      <section class="screen active-screen" id="dashboard">
+        <div class="screen-head">
+          <div><p class="eyebrow">Good evening, Hudhud</p><h2>Your kitchen needs attention today</h2></div>
+          <span class="badge">7 items tracked</span>
+        </div>
+        <div class="alert">⚠️ Use spinach, yogurt, and tomatoes within 2 days.</div>
+        <div class="cards small">
+          <article><h3>Food saved</h3><p class="big">12 meals</p><small>This month</small></article>
+          <article><h3>Money saved</h3><p class="big">AED 86</p><small>Estimated</small></article>
+          <article><h3>Waste avoided</h3><p class="big">3.4 kg</p><small>Estimated</small></article>
+        </div>
+        <h3>Best recipe for tonight</h3>
+        <div class="recipe-highlight">
+          <div><h2>Spinach Yogurt Flatbread Wrap</h2><p>Uses 4 ingredients already in your kitchen. Ready in 15 minutes.</p></div>
+          <button onclick="showRecipe('wrap')">View steps</button>
+        </div>
+      </section>
+
+      <section class="screen" id="pantry">
+        <div class="screen-head"><h2>My Kitchen</h2><button onclick="switchScreen('scan')">+ Add food</button></div>
+        <div id="pantryList" class="pantry-list"></div>
+      </section>
+
+      <section class="screen" id="recipes">
+        <div class="screen-head"><h2>Recipes from what you have</h2><span class="badge">Sorted by expiry</span></div>
+        <div id="recipeList" class="recipe-list"></div>
+      </section>
+
+      <section class="screen" id="scan">
+        <h2>How Scrappy knows what is in your kitchen</h2>
+        <div class="scan-grid">
+          <div class="scan-box">📸<h3>Photo scan</h3><p>Take a fridge or pantry photo. AI identifies visible items.</p></div>
+          <div class="scan-box">🧾<h3>Receipt scan</h3><p>Upload a grocery receipt. Scrappy adds items automatically.</p></div>
+          <div class="scan-box">✍️<h3>Manual add</h3><p>Type items quickly when AI is unsure.</p></div>
+        </div>
+        <form id="addForm">
+          <h3>Add a sample item</h3>
+          <input id="itemName" placeholder="Ingredient, e.g. carrots" required />
+          <input id="itemDays" type="number" min="0" max="30" placeholder="Days until expiry" required />
+          <button>Add to kitchen</button>
+        </form>
+      </section>
+
+      <section class="screen" id="faq">
+        <h2>End-user questions answered</h2>
+        <div class="faq-item"><h3>How does this help me?</h3><p>It reduces food waste, saves money, and removes the daily stress of deciding what to cook.</p></div>
+        <div class="faq-item"><h3>How does the app know what is available?</h3><p>Users can scan fridge photos, upload grocery receipts, connect shopping lists, or add items manually. The app asks for confirmation when it is unsure.</p></div>
+        <div class="faq-item"><h3>Will this make life easier or more difficult?</h3><p>Easier. The goal is fewer decisions: Scrappy suggests meals automatically and highlights only the ingredients that need attention.</p></div>
+        <div class="faq-item"><h3>What if I do not like an ingredient?</h3><p>You can mark dislikes, allergies, dietary preferences, and cooking skill level. Scrappy adapts suggestions.</p></div>
+        <div class="faq-item"><h3>What makes it different from a normal recipe app?</h3><p>Normal apps start with “What do you want to eat?” Scrappy starts with “What do you already have before it expires?”</p></div>
+      </section>
+    </section>
+  </main>
+
+  <div class="modal" id="modal">
+    <div class="modal-box">
+      <button class="close" onclick="closeModal()">×</button>
+      <h2 id="modalTitle"></h2>
+      <p id="modalText"></p>
+      <ol id="modalSteps"></ol>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
