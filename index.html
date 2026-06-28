@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scrappy — AI Pantry Companion</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="logo" href="#home"><span>🥕</span><strong>Scrappy</strong></a>
+    <button class="nav-link active" data-page="home">🏠 Home</button>
+    <button class="nav-link" data-page="dashboard">📊 Dashboard</button>
+    <button class="nav-link" data-page="pantry">🥬 Pantry</button>
+    <button class="nav-link" data-page="recipes">🍳 AI Recipes</button>
+    <button class="nav-link" data-page="scanner">📸 Scanner</button>
+    <button class="nav-link" data-page="shopping">🛒 Shopping List</button>
+    <button class="nav-link" data-page="profile">👤 Profile</button>
+    <button class="theme-toggle" id="themeToggle">🌙 Dark mode</button>
+  </aside>
+
+  <main class="app-shell">
+    <header class="topbar">
+      <button class="menu-btn" id="menuBtn">☰</button>
+      <div>
+        <p class="eyebrow">AI pantry companion</p>
+        <h1 id="pageTitle">Turn leftovers into meals</h1>
+      </div>
+      <button class="primary small" data-page-target="dashboard">Try the prototype</button>
+    </header>
+
+    <section class="page active" id="home">
+      <div class="hero-grid">
+        <div class="hero-copy glass">
+          <span class="badge">Designed to reduce food waste</span>
+          <h2>Scrappy helps you cook what you already have — before it expires.</h2>
+          <p>Instead of asking “what do I want to eat?”, Scrappy asks “what should I save today?” It checks your pantry, finds expiring ingredients, and creates easy recipes from them.</p>
+          <div class="cta-row">
+            <button class="primary" data-page-target="dashboard">Open demo app</button>
+            <button class="secondary" data-page-target="scanner">See scanner</button>
+          </div>
+          <div class="mini-stats">
+            <div><strong>3</strong><span>items expiring</span></div>
+            <div><strong>AED 42</strong><span>saved this week</span></div>
+            <div><strong>12 min</strong><span>fastest meal</span></div>
+          </div>
+        </div>
+
+        <div class="phone-mockup">
+          <div class="phone-camera"></div>
+          <div class="mobile-card warning"><span>⚠️</span><div><b>Use today</b><p>Spinach, yogurt and tomatoes are expiring soon.</p></div></div>
+          <div class="mobile-card"><span>✨</span><div><b>Best match</b><p>Spinach Tomato Egg Toast · 12 mins</p></div></div>
+          <div class="ingredient-pills">
+            <span>🥬 Spinach</span><span>🍅 Tomatoes</span><span>🥚 Eggs</span><span>🍞 Bread</span>
+          </div>
+          <div class="progress-card"><b>Weekly waste goal</b><div class="progress"><span></span></div><small>82% saved from waste</small></div>
+        </div>
+      </div>
+
+      <div class="cards-3">
+        <article class="glass"><div class="icon">🤔</div><h3>How does this help me?</h3><p>It saves time, money and stress by deciding meals from ingredients you already own.</p></article>
+        <article class="glass"><div class="icon">📦</div><h3>How does it know my kitchen?</h3><p>You can add items manually, scan a receipt, or use the demo camera scanner prototype.</p></article>
+        <article class="glass"><div class="icon">🌱</div><h3>Will it make life easier?</h3><p>Yes — Scrappy reduces decision fatigue and reminds you what to use before it spoils.</p></article>
+      </div>
+    </section>
+
+    <section class="page" id="dashboard">
+      <div class="dashboard-grid">
+        <article class="stat-card"><span>Food saved</span><strong>8.4 kg</strong><small>This month</small></article>
+        <article class="stat-card"><span>Money saved</span><strong>AED 186</strong><small>Estimated</small></article>
+        <article class="stat-card"><span>Meals created</span><strong>27</strong><small>From leftovers</small></article>
+        <article class="stat-card"><span>Expiry alerts</span><strong>5</strong><small>Need attention</small></article>
+      </div>
+      <div class="split-grid">
+        <article class="glass panel"><h3>Today’s priority</h3><div id="priorityList" class="priority-list"></div></article>
+        <article class="glass panel accent"><h3>AI recommendation</h3><div id="dashboardRecipe"></div><button class="white-btn" data-page-target="recipes">Generate another recipe</button></article>
+      </div>
+    </section>
+
+    <section class="page" id="pantry">
+      <div class="glass panel">
+        <div class="panel-head"><div><h3>Your pantry</h3><p>Add ingredients and expiry dates. Click an item to remove it.</p></div><button id="resetPantry" class="secondary">Reset demo</button></div>
+        <form id="addForm" class="add-form">
+          <input id="itemName" placeholder="Example: rice, chicken, cheese" required />
+          <select id="itemExpiry">
+            <option value="today">Expires today</option>
+            <option value="tomorrow">Expires tomorrow</option>
+            <option value="week">This week</option>
+            <option value="later">Later</option>
+          </select>
+          <button class="primary" type="submit">Add item</button>
+        </form>
+        <div id="pantryList" class="pantry-list"></div>
+      </div>
+    </section>
+
+    <section class="page" id="recipes">
+      <div class="split-grid">
+        <article class="glass panel"><h3>Recipe generator</h3><p>Scrappy looks at expiring items first, then builds a simple meal idea.</p><button id="generateRecipe" class="primary big">✨ Generate recipe</button><div id="recipeResult" class="recipe-result"></div></article>
+        <article class="glass panel"><h3>Saved recipes</h3><div class="saved-recipes"><div>🍳 Spinach Tomato Egg Toast</div><div>🥣 Yogurt Banana Bowl</div><div>🍝 Tomato Cheese Pasta</div></div></article>
+      </div>
+    </section>
+
+    <section class="page" id="scanner">
+      <div class="scanner-wrap glass panel">
+        <div class="scanner-box"><div class="scan-line"></div><span>📸</span><p>Demo camera scanner</p></div>
+        <div><h3>How Scrappy can know what’s available</h3><p>In a real app, users could scan receipts, product barcodes, or type ingredients manually. For this prototype, press the button and Scrappy will “detect” sample groceries.</p><button id="scanBtn" class="primary">Scan demo items</button><div id="scanOutput" class="scan-output"></div></div>
+      </div>
+    </section>
+
+    <section class="page" id="shopping">
+      <div class="glass panel">
+        <h3>Smart shopping list</h3><p>Scrappy avoids buying duplicates and suggests only what completes meals.</p>
+        <div class="shopping-list"><label><input type="checkbox"> Olive oil</label><label><input type="checkbox"> Garlic</label><label><input type="checkbox"> Tortilla wraps</label><label><input type="checkbox"> Fresh herbs</label></div>
+      </div>
+    </section>
+
+    <section class="page" id="profile">
+      <div class="glass panel profile-card">
+        <div class="avatar">S</div><h3>Scrappy Demo User</h3><p>Goal: save money, reduce food waste, and cook faster.</p>
+        <div class="profile-grid"><div><strong>Family mode</strong><span>On</span></div><div><strong>Diet preference</strong><span>Flexible</span></div><div><strong>Weekly budget</strong><span>AED 250</span></div></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
