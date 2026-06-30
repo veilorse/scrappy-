@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Scrappy v2 — Smart Pantry App</title>
+  <link rel="stylesheet" href="styles.css"/>
+<script>
+if(!localStorage.getItem('scrappyLoggedIn')){
+ window.location.href='login.html';
+}
+</script>
+</head>
+<body><a class="top-profile" href="profile.html">👤</a>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">S</div>
+        <div>
+          <h1>Scrappy</h1>
+          <p>Smart Pantry Companion</p>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <button class="nav-btn active" data-page="dashboard" aria-label="Dashboard">
+          <span class="icon" data-icon="layout"></span> Dashboard
+        </button>
+        <button class="nav-btn" data-page="pantry" aria-label="Pantry">
+          <span class="icon" data-icon="box"></span> Pantry
+        </button>
+        <button class="nav-btn" data-page="scanner" aria-label="Scanner">
+          <span class="icon" data-icon="camera"></span> Scanner
+        </button>
+        <button class="nav-btn" data-page="recipes" aria-label="Recipes">
+          <span class="icon" data-icon="chef"></span> Recipe Builder
+        </button>
+        <button class="nav-btn" data-page="shopping" aria-label="Shopping List">
+          <span class="icon" data-icon="cart"></span> Shopping List
+        </button>
+        <button class="nav-btn" data-page="appstore" aria-label="App Store Plan">
+          <span class="icon" data-icon="phone"></span> App Store Plan
+        </button>
+      </nav>
+
+      <div class="sidebar-note">
+        <span class="icon" data-icon="shield"></span>
+        <p>No emoji UI. Professional icon system, dashboard-first flow, and realistic mobile app plan.</p>
+      </div>
+    </aside>
+
+    <main class="main">
+      <section id="dashboard" class="page active">
+        <div class="page-head">
+          <div>
+            <span class="eyebrow">Dashboard first experience</span>
+            <h2>Today in your kitchen</h2>
+            <p>Scrappy opens here first so users instantly know what to cook, what expires soon, and what they may need to buy.</p>
+          </div>
+          <button class="primary-btn" data-jump="recipes"><span class="icon" data-icon="spark"></span> Build a Recipe</button>
+        </div>
+
+        <div class="grid stats-grid">
+          <article class="stat-card">
+            <span class="icon large" data-icon="plate"></span>
+            <div><strong id="mealsCount">3</strong><p>Meals ready today</p></div>
+          </article>
+          <article class="stat-card">
+            <span class="icon large" data-icon="clock"></span>
+            <div><strong>5</strong><p>Items expiring soon</p></div>
+          </article>
+          <article class="stat-card">
+            <span class="icon large" data-icon="leaf"></span>
+            <div><strong>82%</strong><p>Waste prevention score</p></div>
+          </article>
+          <article class="stat-card">
+            <span class="icon large" data-icon="wallet"></span>
+            <div><strong>AED 47</strong><p>Estimated savings</p></div>
+          </article>
+        </div>
+
+        <div class="dashboard-layout">
+          <article class="panel">
+            <div class="panel-title"><span class="icon" data-icon="plate"></span><h3>Recommended meals for today</h3></div>
+            <div id="todayMeals" class="meal-list"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-title"><span class="icon" data-icon="clock"></span><h3>Use first</h3></div>
+            <div id="expiryList" class="expiry-list"></div>
+          </article>
+        </div>
+
+        <article class="panel question-panel">
+          <div class="panel-title"><span class="icon" data-icon="help"></span><h3>Answers to end-user concerns</h3></div>
+          <div class="faq-grid">
+            <div>
+              <h4>How does this help me?</h4>
+              <p>It reduces food waste, saves money, and removes the daily stress of deciding what to cook.</p>
+            </div>
+            <div>
+              <h4>How does it know my kitchen?</h4>
+              <p>Users add items manually, scan barcodes, scan receipts, or use camera recognition in the mobile version.</p>
+            </div>
+            <div>
+              <h4>Will it make life harder?</h4>
+              <p>No. The app opens directly to a dashboard and gives clear actions: use first, cook today, or add more items.</p>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section id="pantry" class="page">
+        <div class="page-head">
+          <div>
+            <span class="eyebrow">Inventory</span>
+            <h2>Pantry management</h2>
+            <p>Add, search, and track items. Expiring ingredients are highlighted but the full pantry stays available for better recipe combinations.</p>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <input id="pantrySearch" placeholder="Search pantry items..." />
+          <select id="categoryFilter">
+            <option value="all">All categories</option>
+            <option value="Fridge">Fridge</option>
+            <option value="Pantry">Pantry</option>
+            <option value="Freezer">Freezer</option>
+          </select>
+        </div>
+
+        <form id="addItemForm" class="add-form">
+          <input id="itemName" placeholder="Ingredient name" required />
+          <input id="itemQty" placeholder="Quantity" required />
+          <select id="itemCategory">
+            <option>Fridge</option>
+            <option>Pantry</option>
+            <option>Freezer</option>
+          </select>
+          <input id="itemDays" type="number" min="0" value="3" title="Days until expiry" />
+          <button class="primary-btn" type="submit"><span class="icon" data-icon="plus"></span> Add Item</button>
+        </form>
+
+        <div id="pantryGrid" class="pantry-grid"></div>
+      </section>
+
+      <section id="scanner" class="page">
+        <div class="page-head">
+          <div>
+            <span class="eyebrow">Camera + AI vision workflow</span>
+            <h2>How scanning works</h2>
+            <p>This answers whether the scanner is a plugin. In production, the camera is built into the app and connected to an AI vision model.</p>
+          </div>
+          <button id="simulateScan" class="primary-btn"><span class="icon" data-icon="camera"></span> Simulate Scan</button>
+        </div>
+
+        <div class="scanner-layout">
+          <div class="camera-card">
+            <div class="scan-frame">
+              <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+              <div id="scanStatus">Ready to scan fridge, pantry, barcode, or receipt</div>
+            </div>
+          </div>
+
+          <article class="panel">
+            <div class="panel-title"><span class="icon" data-icon="spark"></span><h3>Production technology</h3></div>
+            <ul class="clean-list">
+              <li><strong>Mobile framework:</strong> React Native with Expo</li>
+              <li><strong>Camera:</strong> Expo Camera or React Native Vision Camera</li>
+              <li><strong>AI recognition:</strong> Google Gemini Vision or OpenAI Vision</li>
+              <li><strong>Database:</strong> Firebase or Supabase</li>
+              <li><strong>App release:</strong> App Store Connect + Google Play Console</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="steps">
+          <div><span>1</span><h4>Open camera</h4><p>User scans groceries, fridge, pantry, barcode, or receipt.</p></div>
+          <div><span>2</span><h4>AI detects items</h4><p>The model identifies ingredients, labels, expiry dates, and quantities.</p></div>
+          <div><span>3</span><h4>Pantry updates</h4><p>Detected items are added to the user's pantry for tracking.</p></div>
+          <div><span>4</span><h4>Recipes refresh</h4><p>Dashboard and Recipe Builder update instantly.</p></div>
+        </div>
+      </section>
+
+      <section id="recipes" class="page">
+        <div class="page-head">
+          <div>
+            <span class="eyebrow">Improved recipe logic</span>
+            <h2>Recipe Builder</h2>
+            <p>Select expiring items first, then add any other pantry ingredients to create better meals. This solves the chicken example from the feedback.</p>
+          </div>
+        </div>
+
+        <div class="recipe-builder">
+          <article class="panel">
+            <div class="panel-title"><span class="icon" data-icon="clock"></span><h3>Expiring soon</h3></div>
+            <div id="expiringChoices" class="choice-list"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-title"><span class="icon" data-icon="box"></span><h3>Add more pantry items</h3></div>
+            <p class="muted">Add items that are not expiring but would improve the recipe.</p>
+            <div id="optionalChoices" class="choice-list"></div>
+          </article>
+        </div>
+
+        <button id="generateRecipe" class="wide primary-btn"><span class="icon" data-icon="spark"></span> Generate recipe using selected items</button>
+        <div id="recipeOutput" class="recipe-output"></div>
+      </section>
+
+      <section id="shopping" class="page">
+        <div class="page-head">
+          <div>
+            <span class="eyebrow">Shopping clarity</span>
+            <h2>Shopping List</h2>
+            <p>Scrappy separates what you already have from what is missing so users avoid duplicate purchases.</p>
+          </div>
+        </div>
+
+        <div class="dashboard-layout">
+          <article class="panel">
+            <div class="panel-title"><span class="icon" data-icon="cart"></span><h3>Suggested missing items</h3></div>
+            <label class="check-row"><input type="checkbox"> Whole grain bread</label>
+            <label class="check-row"><input type="checkbox"> Fresh herbs</label>
+            <label class="check-row"><input type="checkbox"> Lemon</label>
+            <label class="check-row"><input type="checkbox"> Olive oil</label>
+          </article>
+
+          <article class="panel">
+            <div class="panel-title"><span class="icon" data-icon="shield"></span><h3>Already available</h3></div>
+            <p class="pill">Chicken</p>
+            <p class="pill">Eggs</p>
+            <p class="pill">Yogurt</p>
+            <p class="pill">Spinach</p>
+            <p class="pill">Rice</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="appstore" class="page">
+        <div class="page-head">
+          <div>
+            <span class="eyebrow">Publishing plan</span>
+            <h2>How Scrappy becomes an iOS and Android app</h2>
+            <p>This section directly answers the app store question in the feedback.</p>
+          </div>
+        </div>
+
+        <div class="timeline">
+          <div><span class="icon" data-icon="code"></span><h3>1. Build mobile app</h3><p>Use React Native with Expo for one codebase across iOS and Android.</p></div>
+          <div><span class="icon" data-icon="camera"></span><h3>2. Add camera tools</h3><p>Use Expo Camera or Vision Camera for scanning food, labels, barcodes, and receipts.</p></div>
+          <div><span class="icon" data-icon="spark"></span><h3>3. Connect AI vision</h3><p>Use Gemini Vision or OpenAI Vision to recognise items and expiry information.</p></div>
+          <div><span class="icon" data-icon="database"></span><h3>4. Store user pantry</h3><p>Use Firebase or Supabase so pantry data syncs across devices.</p></div>
+          <div><span class="icon" data-icon="phone"></span><h3>5. Publish</h3><p>Build releases with Expo EAS, then submit to App Store Connect and Google Play Console.</p></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
